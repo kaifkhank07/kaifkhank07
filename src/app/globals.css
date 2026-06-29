@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@theme {
+  --font-inter: var(--font-inter);
+}
+
+@layer base {
+  html,
+  body {
+    background-color: #000;
+    color: #fff;
+    font-family: var(--font-inter), sans-serif;
+    margin: 0;
+    padding: 0;
+    overscroll-behavior: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Hide scrollbar for a clean native-like feel while retaining custom scroll */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  
+  * {
+    scrollbar-width: none;
+  }
+
+  ::selection {
+    background-color: #fff;
+    color: #000;
+  }
+}
+
+@layer utilities {
+  .will-change-transform {
+    will-change: transform;
+  }
+}
