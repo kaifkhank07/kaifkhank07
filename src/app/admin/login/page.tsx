@@ -4,8 +4,10 @@ import { useState } from "react";
 import { Input } from "@/components/Admin/Input";
 import { Button } from "@/components/Admin/Button";
 import toast from "react-hot-toast";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function AdminLogin() {
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -22,7 +24,7 @@ export default function AdminLogin() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-      
+
       const data = await res.json();
       if (data.success) {
         toast.success("Login successful");
@@ -46,21 +48,31 @@ export default function AdminLogin() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <Input 
-            label="Email Address" 
-            type="email" 
-            name="email" 
-            required 
+          <Input
+            label="Email Address"
+            type="email"
+            name="email"
+            required
             placeholder="admin@example.com"
           />
-          <Input 
-            label="Password" 
-            type="password" 
-            name="password" 
-            required 
+          <Input
+            label="Password"
+            type={showPassword ? "text" : "password"}
+            name="password"
+            required
             placeholder="••••••••"
+            rightElement={
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="text-zinc-500 hover:text-zinc-800 transition-colors cursor-pointer"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            }
           />
-          <Button type="submit" className="w-full" isLoading={isLoading}>
+          <Button type="submit" className="w-full cursor-pointer" isLoading={isLoading}>
             Sign In
           </Button>
         </form>

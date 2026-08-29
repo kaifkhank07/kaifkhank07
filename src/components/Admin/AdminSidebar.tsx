@@ -2,14 +2,14 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { 
-  LayoutDashboard, 
-  FolderOpen, 
-  UserCircle, 
-  Map, 
-  Wrench, 
-  Share2, 
-  MessageSquare, 
+import {
+  LayoutDashboard,
+  FolderOpen,
+  UserCircle,
+  Map,
+  Wrench,
+  Share2,
+  MessageSquare,
   LogOut,
   Settings
 } from "lucide-react";
@@ -36,7 +36,7 @@ export default function AdminSidebar() {
   return (
     <aside className="w-64 bg-black text-white flex flex-col h-screen fixed top-0 left-0 border-r border-zinc-800">
       <div className="p-6 border-b border-zinc-800">
-        <h2 className="text-2xl font-bold tracking-widest uppercase">Admin</h2>
+        <Link href="/" className="text-2xl font-bold tracking-widest uppercase hover:text-white/70 transition-colors">Admin</Link>
       </div>
 
       <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
@@ -48,11 +48,10 @@ export default function AdminSidebar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                isActive 
-                  ? "bg-white text-black font-semibold" 
-                  : "text-zinc-400 hover:text-white hover:bg-zinc-900"
-              }`}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive
+                ? "bg-white text-black font-semibold"
+                : "text-zinc-400 hover:text-white hover:bg-zinc-900"
+                }`}
             >
               <Icon size={20} />
               <span>{item.name}</span>

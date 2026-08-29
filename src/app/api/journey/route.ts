@@ -16,6 +16,21 @@ export async function POST(req: NextRequest) {
   try {
     await connectToDatabase();
     const body = await req.json();
+
+    // Sanitize the 'at' field
+    if (body.at) {
+      const name = body.at.name?.trim();
+      const url = body.at.url?.trim();
+      if (!name && !url) {
+        body.at = undefined;
+      } else {
+        body.at = {
+          ...(name ? { name } : {}),
+          ...(url ? { url } : {}),
+        };
+      }
+    }
+
     const journey = await Journey.create(body);
     return NextResponse.json({ success: true, data: journey }, { status: 201 });
   } catch (error: any) {
@@ -31,6 +46,21 @@ export async function PUT(req: NextRequest) {
     if (!id) return NextResponse.json({ success: false, error: "ID is required" }, { status: 400 });
 
     const body = await req.json();
+
+    // Sanitize the 'at' field
+    if (body.at) {
+      const name = body.at.name?.trim();
+      const url = body.at.url?.trim();
+      if (!name && !url) {
+        body.at = null;
+      } else {
+        body.at = {
+          name: name || null,
+          url: url || null,
+        };
+      }
+    }
+
     const journey = await Journey.findByIdAndUpdate(id, body, {
       new: true,
       runValidators: true,

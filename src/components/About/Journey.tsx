@@ -50,6 +50,35 @@ export default function Journey() {
                                     {item.title}
                                 </h3>
 
+                                {item.at && (item.at.name || item.at.url) && (
+                                    <div className="mt-2 text-sm text-zinc-500 font-medium">
+                                        at{" "}
+                                        {item.at.name ? (
+                                            item.at.url ? (
+                                                <a
+                                                    href={item.at.url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-blue-600 hover:underline inline-flex items-center gap-1 font-semibold"
+                                                >
+                                                    {item.at.name}
+                                                </a>
+                                            ) : (
+                                                <span className="font-semibold text-zinc-700">{item.at.name}</span>
+                                            )
+                                        ) : (
+                                            <a
+                                                href={item.at.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-blue-600 hover:underline font-semibold"
+                                            >
+                                                {item.at.url}
+                                            </a>
+                                        )}
+                                    </div>
+                                )}
+
                                 <p className="mt-4 text-zinc-600 max-w-2xl">
                                     {item.description}
                                 </p>

@@ -23,6 +23,8 @@ export default function JourneyAdmin() {
     type: "Experience",
     title: "",
     description: "",
+    atName: "",
+    atUrl: "",
   });
 
   const fetchJourney = async () => {
@@ -48,10 +50,20 @@ export default function JourneyAdmin() {
         type: item.type || "Experience",
         title: item.title || "",
         description: item.description || "",
+        atName: item.at?.name || "",
+        atUrl: item.at?.url || "",
       });
     } else {
       setEditingId(null);
-      setFormData({ joinedDate: "", completedDate: "", type: "Experience", title: "", description: "" });
+      setFormData({
+        joinedDate: "",
+        completedDate: "",
+        type: "Experience",
+        title: "",
+        description: "",
+        atName: "",
+        atUrl: "",
+      });
     }
     setIsModalOpen(true);
   };
@@ -86,11 +98,28 @@ export default function JourneyAdmin() {
     const url = editingId ? `/api/journey?id=${editingId}` : "/api/journey";
     const method = editingId ? "PUT" : "POST";
 
+    const payload: any = {
+      joinedDate: formData.joinedDate,
+      completedDate: formData.completedDate,
+      type: formData.type,
+      title: formData.title,
+      description: formData.description,
+    };
+
+    if (formData.atName.trim() || formData.atUrl.trim()) {
+      payload.at = {
+        name: formData.atName.trim() || undefined,
+        url: formData.atUrl.trim() || undefined,
+      };
+    } else {
+      payload.at = null;
+    }
+
     try {
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       
@@ -159,6 +188,13 @@ export default function JourneyAdmin() {
             </select>
           </div>
           <Input label="Title" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} required />
+          <div className="border border-zinc-200 p-4 rounded-lg bg-zinc-50 space-y-4">
+            <h4 className="text-sm font-semibold text-zinc-800">At / Company / Institution (Optional)</h4>
+            <div className="grid grid-cols-2 gap-4">
+              <Input label="Name" value={formData.atName} onChange={e => setFormData({ ...formData, atName: e.target.value })} placeholder="e.g. Buzzlink Studios" />
+              <Input label="URL" value={formData.atUrl} onChange={e => setFormData({ ...formData, atUrl: e.target.value })} placeholder="e.g. https://buzzlinkstudios.com" />
+            </div>
+          </div>
           <div className="grid grid-cols-2 gap-4">
             <Input label="Joined Date (e.g. 2024)" value={formData.joinedDate} onChange={e => setFormData({ ...formData, joinedDate: e.target.value })} required />
             <Input label="Completed Date (leave blank for Present)" value={formData.completedDate} onChange={e => setFormData({ ...formData, completedDate: e.target.value })} />

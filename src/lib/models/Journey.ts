@@ -6,6 +6,10 @@ export interface IJourney extends Document {
   type: "Experience" | "Education";
   title: string;
   description: string;
+  at?: {
+    name?: string;
+    url?: string;
+  };
 }
 
 const JourneySchema: Schema = new Schema(
@@ -15,6 +19,19 @@ const JourneySchema: Schema = new Schema(
     type: { type: String, enum: ["Experience", "Education"], required: true },
     title: { type: String, required: true },
     description: { type: String, required: true },
+    at: {
+      name: { type: String },
+      url: {
+        type: String,
+        validate: {
+          validator: function (v: string) {
+            if (!v) return true;
+            return /^https?:\/\//i.test(v);
+          },
+          message: (props: any) => `${props.value} is not a valid HTTP/HTTPS URL!`,
+        },
+      },
+    },
   },
   { timestamps: true }
 );

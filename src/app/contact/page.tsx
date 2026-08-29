@@ -116,7 +116,7 @@ export default function Contact() {
               <p className="text-zinc-400 text-xl">
                 Please try again later.
               </p>
-              <button 
+              <button
                 onClick={() => setFormState("idle")}
                 className="mt-8 px-6 py-3 bg-white text-black font-bold uppercase tracking-widest text-sm"
               >
@@ -204,7 +204,7 @@ export default function Contact() {
 
               <div className="mt-8 flex items-center justify-between">
                 <p className="text-zinc-500 text-sm hidden md:block">
-                  Based in NYC. Working Globally.
+                  Based in India. Working Globally.
                 </p>
                 <MagneticButton
                   type="submit"
