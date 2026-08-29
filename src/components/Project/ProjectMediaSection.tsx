@@ -12,9 +12,9 @@ export default function ProjectMediaSection({ images }: ProjectMediaSectionProps
 
   // The hero uses the 1st image (images[0])
   // The media section uses the next two images (images[1] and images[2])
-  const mainImage = images[0] || "/assets/agency.jpg";
-  const leftImage = images[1] || "/assets/agency.jpg";
-  const rightImage = images[2] || "/assets/agency.jpg";
+  const mainImage = images[0] || "/assets/Images/regular/agency.jpg";
+  const leftImage = images[1] || "/assets/Images/regular/agency.jpg";
+  const rightImage = images[2] || "/assets/Images/regular/agency.jpg";
 
   return (
     <section className="pb-40 px-4 md:px-0 flex flex-col gap-32">

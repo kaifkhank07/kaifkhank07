@@ -4,7 +4,7 @@ import "./globals.css";
 import CustomCursor from "@/cursor/CustomCursor";
 import { Navbar } from "@/components/Layout/Navbar";
 import SmoothScrollProvider from "@/components/Layout/SmoothScrollProvider";
-import ResumeWrapper from "@/components/About/ResumeWrapper";
+import PublicComponents from "@/components/Layout/PublicComponents";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,7 +26,8 @@ export default function RootLayout({
       <body className="bg-black text-white antialiased selection:bg-white selection:text-black">
         <CustomCursor />
         <Navbar />
-        <ResumeWrapper />
+        {/* <ResumeWrapper /> */}
+        <PublicComponents />
         <SmoothScrollProvider>{children}</SmoothScrollProvider>
       </body>
     </html>

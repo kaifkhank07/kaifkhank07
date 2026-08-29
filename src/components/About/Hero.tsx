@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export default function Hero() {
     const [aboutData, setAboutData] = useState({
-        profileImage: "/assets/agency.jpg",
+        profileImage: "/assets/Images/regular/agency.jpg",
         story: "As a developer, I help businesses and startups transform ideas into reliable web applications. My approach combines clean architecture, modern technologies, and attention to detail to deliver solutions that are both powerful and easy to use."
     });
 
@@ -16,7 +16,7 @@ export default function Hero() {
             .then(data => {
                 if (data.success && data.data) {
                     setAboutData({
-                        profileImage: data.data.profileImage || "/assets/agency.jpg",
+                        profileImage: data.data.profileImage || "/assets/Images/regular/agency.jpg",
                         story: data.data.story || aboutData.story
                     });
                 }

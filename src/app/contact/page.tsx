@@ -7,16 +7,6 @@ import { fadeUp } from "@/animations/variants";
 
 const defaultSocials = [
   {
-    name: "GitHub",
-    username: "@kaifkhank07",
-    href: "#",
-  },
-  {
-    name: "LinkedIn",
-    username: "/in/kaifkhank07",
-    href: "#",
-  },
-  {
     name: "Instagram",
     username: "@kaifkhank07",
     href: "#",

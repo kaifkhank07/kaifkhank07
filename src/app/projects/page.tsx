@@ -17,7 +17,7 @@ export default function Projects() {
             slug: p.slug,
             title: p.title,
             category: p.category,
-            image: p.images && p.images.length > 1 ? p.images[1] : (p.images && p.images.length > 0 ? p.images[0] : "/assets/agency.jpg"),
+            image: p.images && p.images.length > 1 ? p.images[1] : (p.images && p.images.length > 0 ? p.images[0] : "/assets/Images/regular/agency.jpg"),
           }));
           setProjectsList(formattedData);
         }
