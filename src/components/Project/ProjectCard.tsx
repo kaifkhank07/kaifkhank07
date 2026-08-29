@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 interface ProjectCardProps {
   slug: string;
@@ -16,19 +17,29 @@ export default function ProjectCard({
   category,
   image,
 }: ProjectCardProps) {
+  const MotionImage = motion(Image);
+
   return (
     <Link
       href={`/projects/${slug}`}
-      className="group block relative w-full aspect-[4/5] overflow-hidden bg-zinc-900"
+      className="group block relative w-full h-[60vh] overflow-hidden bg-zinc-900"
       data-cursor-text="OPEN"
     >
       {/* Background Image */}
-      <Image
-        src={image}
-        alt={title}
-        fill
-        className="object-cover grayscale brightness-90 transition-all duration-1000 ease-[cubic-bezier(0.77,0,0.175,1)] group-hover:grayscale-0 group-hover:scale-105"
-      />
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 1 }}
+        className="group relative h-[60vh] overflow-hidden"
+      >
+        <MotionImage
+          src={image}
+          alt={title}
+          fill
+          className="object-cover grayscale brightness-90 contrast-110 transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105"
+        />
+      </motion.div>
 
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/40 group-hover:bg-black/0 transition-colors duration-500" />

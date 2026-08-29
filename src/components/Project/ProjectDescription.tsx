@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
 
 interface ProjectDescriptionProps {
   project: any;
@@ -57,13 +56,12 @@ export default function ProjectDescription({ project }: ProjectDescriptionProps)
           <div>
             <span className="block text-sm font-bold text-zinc-400">LIVE</span>
             <a
-              href={project.
-                liveDemoLink}
+              href={project.liveDemoLink}
               target="_blank"
               rel="noopener noreferrer"
               className="text-lg font-medium text-blue-600 hover:text-blue-800 transition-colors duration-300"
             >
-              {project.domain || "View Live Site"}
+              View Live Site
             </a>
           </div>
         </div>

@@ -8,9 +8,10 @@ interface FileUploadProps {
   onUploadSuccess: (url: string) => void;
   currentFile?: string;
   onRemove?: () => void;
+  uploadFolder?: string;
 }
 
-export function FileUpload({ onUploadSuccess, currentFile, onRemove }: FileUploadProps) {
+export function FileUpload({ onUploadSuccess, currentFile, onRemove, uploadFolder }: FileUploadProps) {
   const [isUploading, setIsUploading] = useState(false);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,6 +30,9 @@ export function FileUpload({ onUploadSuccess, currentFile, onRemove }: FileUploa
 
     const formData = new FormData();
     formData.append("file", file);
+    if (uploadFolder) {
+      formData.append("folder", uploadFolder);
+    }
 
     setIsUploading(true);
     try {
@@ -52,7 +56,7 @@ export function FileUpload({ onUploadSuccess, currentFile, onRemove }: FileUploa
   };
 
   const handleRemove = async () => {
-    if (currentFile && currentFile.startsWith("http")) {
+    if (currentFile && (currentFile.startsWith("http") || currentFile.includes("/api/uploads/"))) {
       try {
         await fetch("/api/upload", {
           method: "DELETE",
@@ -60,7 +64,7 @@ export function FileUpload({ onUploadSuccess, currentFile, onRemove }: FileUploa
           body: JSON.stringify({ url: currentFile }),
         });
       } catch (err) {
-        console.error("Failed to delete file from S3:", err);
+        console.error("Failed to delete file:", err);
       }
     }
     if (onRemove) onRemove();

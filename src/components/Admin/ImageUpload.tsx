@@ -9,9 +9,10 @@ interface ImageUploadProps {
   onUploadSuccess: (url: string) => void;
   currentImage?: string;
   onRemove?: () => void;
+  uploadFolder?: string;
 }
 
-export function ImageUpload({ onUploadSuccess, currentImage, onRemove }: ImageUploadProps) {
+export function ImageUpload({ onUploadSuccess, currentImage, onRemove, uploadFolder }: ImageUploadProps) {
   const [isUploading, setIsUploading] = useState(false);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,6 +31,9 @@ export function ImageUpload({ onUploadSuccess, currentImage, onRemove }: ImageUp
 
     const formData = new FormData();
     formData.append("file", file);
+    if (uploadFolder) {
+      formData.append("folder", uploadFolder);
+    }
 
     setIsUploading(true);
     try {
@@ -53,7 +57,7 @@ export function ImageUpload({ onUploadSuccess, currentImage, onRemove }: ImageUp
   };
 
   const handleRemove = async () => {
-    if (currentImage && currentImage.startsWith("http")) {
+    if (currentImage && (currentImage.startsWith("http") || currentImage.includes("/api/uploads/"))) {
       try {
         await fetch("/api/upload", {
           method: "DELETE",
@@ -61,7 +65,7 @@ export function ImageUpload({ onUploadSuccess, currentImage, onRemove }: ImageUp
           body: JSON.stringify({ url: currentImage }),
         });
       } catch (err) {
-        console.error("Failed to delete image from S3:", err);
+        console.error("Failed to delete image:", err);
       }
     }
     if (onRemove) onRemove();

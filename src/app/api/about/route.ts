@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import connectToDatabase from "@/lib/db";
 import About from "@/lib/models/About";
 import { deleteFromS3 } from "@/lib/s3";
+import { deleteUploadedFile } from "@/lib/upload";
 
 export async function GET(req: NextRequest) {
   try {
@@ -20,11 +21,20 @@ export async function POST(req: NextRequest) {
     let about = await About.findOne();
     
     if (about) {
+      // AWS S3 upload logic - temporarily disabled
+      // if (about.profileImage && about.profileImage !== body.profileImage) {
+      //   await deleteFromS3(about.profileImage);
+      // }
+      // if (about.resumeUrl && about.resumeUrl !== body.resumeUrl) {
+      //   await deleteFromS3(about.resumeUrl);
+      // }
+
+      // Local filesystem deletion
       if (about.profileImage && about.profileImage !== body.profileImage) {
-        await deleteFromS3(about.profileImage);
+        await deleteUploadedFile(about.profileImage);
       }
       if (about.resumeUrl && about.resumeUrl !== body.resumeUrl) {
-        await deleteFromS3(about.resumeUrl);
+        await deleteUploadedFile(about.resumeUrl);
       }
       about = await About.findOneAndUpdate({}, body, { new: true, runValidators: true });
     } else {
@@ -44,11 +54,20 @@ export async function PUT(req: NextRequest) {
     
     const existingAbout = await About.findOne();
     if (existingAbout) {
+      // AWS S3 upload logic - temporarily disabled
+      // if (existingAbout.profileImage && existingAbout.profileImage !== body.profileImage) {
+      //   await deleteFromS3(existingAbout.profileImage);
+      // }
+      // if (existingAbout.resumeUrl && existingAbout.resumeUrl !== body.resumeUrl) {
+      //   await deleteFromS3(existingAbout.resumeUrl);
+      // }
+
+      // Local filesystem deletion
       if (existingAbout.profileImage && existingAbout.profileImage !== body.profileImage) {
-        await deleteFromS3(existingAbout.profileImage);
+        await deleteUploadedFile(existingAbout.profileImage);
       }
       if (existingAbout.resumeUrl && existingAbout.resumeUrl !== body.resumeUrl) {
-        await deleteFromS3(existingAbout.resumeUrl);
+        await deleteUploadedFile(existingAbout.resumeUrl);
       }
     }
 

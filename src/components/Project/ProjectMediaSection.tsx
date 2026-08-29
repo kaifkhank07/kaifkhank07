@@ -9,16 +9,16 @@ interface ProjectMediaSectionProps {
 
 export default function ProjectMediaSection({ images }: ProjectMediaSectionProps) {
   const MotionImage = motion(Image);
-  
+
   // The hero uses the 1st image (images[0])
   // The media section uses the next two images (images[1] and images[2])
-  const mainImage = images[1] || images[0] || "/assets/agency.jpg";
-  const leftImage = images[2] || images[1] || images[0] || "/assets/agency.jpg";
-  const rightImage = images[1] || images[0] || "/assets/agency.jpg";
+  const mainImage = images[0] || "/assets/agency.jpg";
+  const leftImage = images[1] || "/assets/agency.jpg";
+  const rightImage = images[2] || "/assets/agency.jpg";
 
   return (
     <section className="pb-40 px-4 md:px-0 flex flex-col gap-32">
-      <div className="group w-full md:w-[80vw] h-[70vh] mx-auto overflow-hidden relative">
+      <div className="group w-full md:w-[80vw] aspect-[16/9] mx-auto overflow-hidden relative">
         <MotionImage
           src={mainImage}
           alt="Project Showcase Main"
@@ -41,7 +41,7 @@ export default function ProjectMediaSection({ images }: ProjectMediaSectionProps
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 1 }}
-          className="group relative h-[60vh] overflow-hidden"
+          className="group relative aspect-[4/3] overflow-hidden"
         >
           <MotionImage
             src={leftImage}
@@ -60,7 +60,7 @@ export default function ProjectMediaSection({ images }: ProjectMediaSectionProps
             duration: 1,
             delay: 0.2,
           }}
-          className="group relative h-[60vh] overflow-hidden md:mt-32"
+          className="group relative aspect-[4/3] overflow-hidden md:mt-32"
         >
           <MotionImage
             src={rightImage}

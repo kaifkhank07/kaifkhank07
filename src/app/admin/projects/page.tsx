@@ -3,12 +3,13 @@
 import { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/Admin/Table";
 import { Button } from "@/components/Admin/Button";
-import { Input, Textarea } from "@/components/Admin/Input";
+import { Input, Textarea, Select } from "@/components/Admin/Input";
 import Modal from "@/components/Admin/Modal";
 import ConfirmDialog from "@/components/Admin/ConfirmDialog";
 import { ImageUpload } from "@/components/Admin/ImageUpload";
 import toast from "react-hot-toast";
 import { Pencil, Trash2, Plus } from "lucide-react";
+import { ProjectService, ProjectCategory } from "@/lib/constants/project";
 
 export default function ProjectsAdmin() {
   const [projects, setProjects] = useState<any[]>([]);
@@ -20,11 +21,9 @@ export default function ProjectsAdmin() {
 
   const [formData, setFormData] = useState({
     title: "",
-    slug: "",
-    category: "",
-    domain: "",
+    category: Object.values(ProjectCategory)[0],
     clientName: "",
-    services: "",
+    services: [] as string[],
     liveDemoLink: "",
     challengeDescription: "",
     showOnHome: false,
@@ -50,14 +49,28 @@ export default function ProjectsAdmin() {
     if (project) {
       setEditingId(project._id);
       setFormData({
-        ...project,
-        services: project.services.join(", "),
+        title: project.title || "",
+        category: project.category || "",
+        clientName: project.clientName || "",
+        services: project.services || [],
+        liveDemoLink: project.liveDemoLink || "",
+        challengeDescription: project.challengeDescription || "",
+        showOnHome: !!project.showOnHome,
+        visibility: !!project.visibility,
+        images: project.images || [],
       });
     } else {
       setEditingId(null);
       setFormData({
-        title: "", slug: "", category: "", domain: "", clientName: "",
-        services: "", liveDemoLink: "", challengeDescription: "", showOnHome: false, visibility: false, images: []
+        title: "",
+        category: Object.values(ProjectCategory)[0],
+        clientName: "",
+        services: [],
+        liveDemoLink: "",
+        challengeDescription: "",
+        showOnHome: false,
+        visibility: false,
+        images: [],
       });
     }
     setIsModalOpen(true);
@@ -92,7 +105,6 @@ export default function ProjectsAdmin() {
 
     const payload = {
       ...formData,
-      services: formData.services.split(",").map(s => s.trim()).filter(Boolean),
     };
 
     const url = editingId ? `/api/projects/${editingId}` : "/api/projects";
@@ -105,7 +117,7 @@ export default function ProjectsAdmin() {
         body: JSON.stringify(payload),
       });
       const data = await res.json();
-      
+
       if (data.success) {
         toast.success(`Project ${editingId ? "updated" : "created"}`);
         setIsModalOpen(false);
@@ -179,35 +191,70 @@ export default function ProjectsAdmin() {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={editingId ? "Edit Project" : "New Project"}>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
-            <Input label="Title" value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} required />
-            <Input label="Slug (unique)" value={formData.slug} onChange={e => setFormData({...formData, slug: e.target.value})} required />
-            <Input label="Category" value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})} required />
-            <Input label="Domain" value={formData.domain} onChange={e => setFormData({...formData, domain: e.target.value})} />
-            <Input label="Client Name" value={formData.clientName} onChange={e => setFormData({...formData, clientName: e.target.value})} />
-            <Input label="Live Demo Link" value={formData.liveDemoLink} onChange={e => setFormData({...formData, liveDemoLink: e.target.value})} />
+            <Input label="Title" value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} required />
+            <Select
+              label="Category"
+              value={formData.category}
+              onChange={(e: any) => setFormData({ ...formData, category: e.target.value })}
+              options={Object.values(ProjectCategory).map(cat => ({ label: cat, value: cat }))}
+              required
+            />
+            <Input label="Client Name" value={formData.clientName} onChange={e => setFormData({ ...formData, clientName: e.target.value })} />
+            <Input label="Live Demo Link" value={formData.liveDemoLink} onChange={e => setFormData({ ...formData, liveDemoLink: e.target.value })} />
           </div>
-          <Input label="Services (comma separated)" value={formData.services} onChange={e => setFormData({...formData, services: e.target.value})} />
-          <Textarea label="Challenge / Description" value={formData.challengeDescription} onChange={e => setFormData({...formData, challengeDescription: e.target.value})} />
-          
+
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-zinc-700">Services</label>
+            <div className="grid grid-cols-2 gap-2 border border-zinc-200 p-4 rounded-lg bg-zinc-50">
+              {Object.values(ProjectService).map((service) => {
+                const isChecked = formData.services.includes(service);
+                return (
+                  <label key={service} className="flex items-center gap-2 text-sm text-zinc-700 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setFormData((prev) => ({
+                            ...prev,
+                            services: [...prev.services, service],
+                          }));
+                        } else {
+                          setFormData((prev) => ({
+                            ...prev,
+                            services: prev.services.filter((s) => s !== service),
+                          }));
+                        }
+                      }}
+                      className="w-4 h-4 rounded border-zinc-300 text-black focus:ring-black"
+                    />
+                    {service}
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+          <Textarea label="Challenge / Description" value={formData.challengeDescription} onChange={e => setFormData({ ...formData, challengeDescription: e.target.value })} />
+
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
-              <input type="checkbox" id="showOnHome" checked={formData.showOnHome} onChange={e => setFormData({...formData, showOnHome: e.target.checked})} className="w-4 h-4 rounded border-zinc-300 text-black focus:ring-black" />
+              <input type="checkbox" id="showOnHome" checked={formData.showOnHome} onChange={e => setFormData({ ...formData, showOnHome: e.target.checked })} className="w-4 h-4 rounded border-zinc-300 text-black focus:ring-black" />
               <label htmlFor="showOnHome" className="text-sm font-semibold text-zinc-700">Show on Home Page</label>
             </div>
             <div className="flex items-center gap-2">
-              <input type="checkbox" id="visibility" checked={formData.visibility} onChange={e => setFormData({...formData, visibility: e.target.checked})} className="w-4 h-4 rounded border-zinc-300 text-black focus:ring-black" />
+              <input type="checkbox" id="visibility" checked={formData.visibility} onChange={e => setFormData({ ...formData, visibility: e.target.checked })} className="w-4 h-4 rounded border-zinc-300 text-black focus:ring-black" />
               <label htmlFor="visibility" className="text-sm font-semibold text-zinc-700">Public Visibility</label>
             </div>
           </div>
-          
+
           <div className="space-y-2">
             <label className="text-sm font-semibold text-zinc-700">Images (Max 3)</label>
             <div className="grid grid-cols-3 gap-4">
               {formData.images.map((img, idx) => (
-                <ImageUpload key={idx} currentImage={img} onUploadSuccess={() => {}} onRemove={() => removeImage(idx)} />
+                <ImageUpload key={idx} currentImage={img} onUploadSuccess={() => { }} onRemove={() => removeImage(idx)} uploadFolder="projects" />
               ))}
               {formData.images.length < 3 && (
-                <ImageUpload onUploadSuccess={handleImageUpload} />
+                <ImageUpload onUploadSuccess={handleImageUpload} uploadFolder="projects" />
               )}
             </div>
           </div>
@@ -218,13 +265,13 @@ export default function ProjectsAdmin() {
           </div>
         </form>
       </Modal>
-      <ConfirmDialog 
-        isOpen={confirmDialog.isOpen} 
-        title="Delete Project" 
-        message="Are you sure you want to delete this project? This action cannot be undone." 
-        onConfirm={executeDelete} 
-        onCancel={() => setConfirmDialog({ isOpen: false, id: "" })} 
-        isLoading={isDeleting} 
+      <ConfirmDialog
+        isOpen={confirmDialog.isOpen}
+        title="Delete Project"
+        message="Are you sure you want to delete this project? This action cannot be undone."
+        onConfirm={executeDelete}
+        onCancel={() => setConfirmDialog({ isOpen: false, id: "" })}
+        isLoading={isDeleting}
       />
     </div>
   );

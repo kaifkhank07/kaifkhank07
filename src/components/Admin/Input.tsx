@@ -40,3 +40,29 @@ export function Textarea({ label, className, ...props }: TextareaProps) {
     </div>
   );
 }
+
+interface SelectProps extends Omit<HTMLProps<HTMLSelectElement>, "label"> {
+  label: string;
+  options: { label: string; value: string }[];
+}
+
+export function Select({ label, options, className, ...props }: SelectProps) {
+  return (
+    <div className="flex flex-col gap-2">
+      <label className="text-sm font-semibold text-zinc-700">{label}</label>
+      <select
+        className={twMerge(
+          "px-4 py-3 border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all bg-white",
+          className
+        )}
+        {...props}
+      >
+        {options.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}

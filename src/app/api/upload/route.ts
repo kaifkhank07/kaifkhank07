@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { uploadToS3, deleteFromS3 } from "@/lib/s3";
+import { saveUploadedFile, deleteUploadedFile } from "@/lib/upload";
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,7 +15,20 @@ export async function POST(req: NextRequest) {
     const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
     const contentType = file.type;
 
-    const fileUrl = await uploadToS3(buffer, fileName, contentType);
+    // AWS S3 upload logic - temporarily disabled
+    // const fileUrl = await uploadToS3(buffer, fileName, contentType);
+
+    // Get the target folder for local storage
+    let folder = formData.get("folder") as string;
+    if (!folder) {
+      if (contentType === "application/pdf") {
+        folder = "resume";
+      } else {
+        folder = "general";
+      }
+    }
+
+    const fileUrl = await saveUploadedFile(buffer, fileName, folder);
 
     return NextResponse.json({ success: true, url: fileUrl });
   } catch (error: any) {
@@ -30,7 +44,11 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: "URL is required" }, { status: 400 });
     }
 
-    await deleteFromS3(url);
+    // AWS S3 upload logic - temporarily disabled
+    // await deleteFromS3(url);
+
+    // Local filesystem deletion
+    await deleteUploadedFile(url);
 
     return NextResponse.json({ success: true });
   } catch (error: any) {

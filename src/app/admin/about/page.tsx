@@ -69,6 +69,7 @@ export default function AboutAdmin() {
             currentImage={formData.profileImage}
             onUploadSuccess={(url) => setFormData({ ...formData, profileImage: url })}
             onRemove={() => setFormData({ ...formData, profileImage: "" })}
+            uploadFolder="about"
           />
         </div>
         <Input 
@@ -90,6 +91,7 @@ export default function AboutAdmin() {
             currentFile={formData.resumeUrl}
             onUploadSuccess={(url) => setFormData({ ...formData, resumeUrl: url })}
             onRemove={() => setFormData({ ...formData, resumeUrl: "" })}
+            uploadFolder="resume"
           />
         </div>
         <div className="pt-4 flex justify-end">
