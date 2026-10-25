@@ -13,9 +13,9 @@ export function Navbar() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 1, ease: [0.77, 0, 0.175, 1], delay: 1 }}
-      className="fixed top-0 left-0 w-full z-50 mix-blend-difference text-white"
+      className="fixed top-0 left-0 w-full z-50 mix-blend-difference py-8 px-4 md:px-6 lg:px-16"
     >
-      <div className="flex items-center justify-between gap-4 px-6 py-8 md:px-12">
+      <div className="max-w-8xl 3xl:max-w-[1450px] mx-auto flex items-center justify-between gap-4">
         <Link
           href="/"
           className=" text-sm sm:text-xl font-medium sm:font-bold tracking-widest sm:tracking-tighter uppercase relative group whitespace-nowrap"

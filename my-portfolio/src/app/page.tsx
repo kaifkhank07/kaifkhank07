@@ -19,11 +19,11 @@ export default function Home() {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
-    <main ref={containerRef} className="relative w-full text-white bg-black">
+    <main ref={containerRef} className="relative w-full">
       <Hero y={y} opacity={opacity} />
       <FeaturedWork />
       <About />
-      <CTA />
+      {/* <CTA /> */}
     </main>
   );
 }

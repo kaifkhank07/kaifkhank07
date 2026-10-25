@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import CustomCursor from "@/cursor/CustomCursor";
 import { Navbar } from "@/components/Layout/Navbar";
+import Footer from "@/components/Layout/Footer";
 import SmoothScrollProvider from "@/components/Layout/SmoothScrollProvider";
 import PublicComponents from "@/components/Layout/PublicComponents";
 
@@ -28,7 +29,10 @@ export default function RootLayout({
         <Navbar />
         {/* <ResumeWrapper /> */}
         <PublicComponents />
-        <SmoothScrollProvider>{children}</SmoothScrollProvider>
+        <SmoothScrollProvider>
+          {children}
+          <Footer />
+        </SmoothScrollProvider>
       </body>
     </html>
   );

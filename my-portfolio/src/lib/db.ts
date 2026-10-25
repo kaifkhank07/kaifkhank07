@@ -1,6 +1,17 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import Admin from "./models/Admin";
+import dns from "dns";
+
+// Fix Node.js SRV lookup issues on Windows with MongoDB Atlas
+if (typeof dns.setDefaultResultOrder === "function") {
+  dns.setDefaultResultOrder("ipv4first");
+}
+try {
+  dns.setServers(["8.8.8.8", "1.1.1.1"]);
+} catch (e) {
+  // Ignore if setting custom DNS servers fails in restricted environments
+}
 
 const MONGODB_URI = process.env.MONGODB_URI!;
 
@@ -27,11 +38,24 @@ async function connectToDatabase() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
+      serverSelectionTimeoutMS: 8000,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      return mongoose;
-    });
+    cached.promise = (async () => {
+      let lastErr;
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        try {
+          return await mongoose.connect(MONGODB_URI, opts);
+        } catch (err) {
+          lastErr = err;
+          console.warn(`MongoDB connection attempt ${attempt} failed:`, err);
+          if (attempt < 3) {
+            await new Promise((res) => setTimeout(res, 500));
+          }
+        }
+      }
+      throw lastErr;
+    })();
   }
 
   try {

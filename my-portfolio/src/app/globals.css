@@ -1,10 +1,12 @@
 @import "tailwindcss";
 
 @theme {
+  --breakpoint-3xl: 1800px;
   --font-inter: var(--font-inter);
 }
 
 @layer base {
+
   html,
   body {
     background-color: #000;
@@ -21,7 +23,7 @@
   ::-webkit-scrollbar {
     display: none;
   }
-  
+
   * {
     scrollbar-width: none;
   }

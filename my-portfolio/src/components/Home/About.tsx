@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 
 export default function About() {
   return (
-    <section className="relative min-h-[80vh] w-full flex items-center px-4 md:px-12 bg-white text-black">
-      <div className="max-w-6xl mx-auto">
+    <section className="relative min-h-[80vh] w-full flex items-center py-8 lg:py-12 px-4 md:px-6 lg:px-16 overflow-hidden bg-white text-black">
+      <div className="max-w-8xl 3xl:max-w-[1450px] mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 100 }}
           whileInView={{ opacity: 1, y: 0 }}

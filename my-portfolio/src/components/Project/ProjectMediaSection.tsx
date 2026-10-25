@@ -17,58 +17,65 @@ export default function ProjectMediaSection({ images }: ProjectMediaSectionProps
   const rightImage = images[2] || "/assets/Images/regular/agency.jpg";
 
   return (
-    <section className="pb-40 px-4 md:px-0 flex flex-col gap-32">
-      <div className="group w-full md:w-[80vw] aspect-[16/9] mx-auto overflow-hidden relative">
-        <MotionImage
-          src={mainImage}
-          alt="Project Showcase Main"
-          fill
-          initial={{ scale: 1.2 }}
-          whileInView={{ scale: 1 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{
-            duration: 1.5,
-            ease: [0.77, 0, 0.175, 1],
-          }}
-          className="object-cover grayscale brightness-90 contrast-110 transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105"
-        />
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 w-full max-w-7xl mx-auto px-6">
-        {/* Left Image */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 1 }}
-          className="group relative aspect-[4/3] overflow-hidden"
-        >
+    <section className="relative w-full py-8 lg:py-12 px-4 md:px-6 lg:px-16 overflow-hidden bg-white text-black">
+      <div className="max-w-8xl 3xl:max-w-[1450px] mx-auto w-full flex flex-col gap-12 sm:gap-16">
+        {/* Main Showcase Image */}
+        <div className="group w-full aspect-[16/9] overflow-hidden relative bg-zinc-100 shadow-sm">
           <MotionImage
-            src={leftImage}
-            alt="Project Showcase Detail 1"
+            src={mainImage}
+            alt="Project Showcase Main"
             fill
-            className="object-cover grayscale brightness-90 contrast-110 transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105"
+            sizes="(max-width: 1024px) 100vw, 1450px"
+            initial={{ scale: 1.15 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{
+              duration: 1.5,
+              ease: [0.77, 0, 0.175, 1],
+            }}
+            className="object-cover grayscale brightness-95 contrast-105 transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105"
           />
-        </motion.div>
+        </div>
 
-        {/* Right Image */}
-        <motion.div
-          initial={{ opacity: 0, y: 150 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{
-            duration: 1,
-            delay: 0.2,
-          }}
-          className="group relative aspect-[4/3] overflow-hidden md:mt-32"
-        >
-          <MotionImage
-            src={rightImage}
-            alt="Project Showcase Detail 2"
-            fill
-            className="object-cover grayscale brightness-90 contrast-110 transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105"
-          />
-        </motion.div>
+        {/* Supporting Details Images */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 w-full">
+          {/* Left Image */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 1 }}
+            className="group relative aspect-[4/3] overflow-hidden bg-zinc-100 shadow-sm"
+          >
+            <MotionImage
+              src={leftImage}
+              alt="Project Showcase Detail 1"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover grayscale brightness-95 contrast-105 transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105"
+            />
+          </motion.div>
+
+          {/* Right Image */}
+          <motion.div
+            initial={{ opacity: 0, y: 80 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{
+              duration: 1,
+              delay: 0.2,
+            }}
+            className="group relative aspect-[4/3] overflow-hidden bg-zinc-100 shadow-sm md:mt-20"
+          >
+            <MotionImage
+              src={rightImage}
+              alt="Project Showcase Detail 2"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover grayscale brightness-95 contrast-105 transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105"
+            />
+          </motion.div>
+        </div>
       </div>
     </section>
   );
