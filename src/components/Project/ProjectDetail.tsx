@@ -13,7 +13,6 @@ export interface ProjectDetailData {
   title: string;
   slug: string;
   category: string;
-  clientName?: string;
   myRole?: string;
   services?: string[];
   liveDemoLink?: string;

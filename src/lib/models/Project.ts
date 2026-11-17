@@ -5,7 +5,6 @@ export interface IProject extends Document {
   title: string;
   slug: string;
   category: string;
-  clientName: string;
   myRole?: string;
   services: string[];
   liveDemoLink: string;
@@ -24,7 +23,6 @@ const ProjectSchema: Schema = new Schema(
       required: true,
       enum: Object.values(ProjectCategory),
     },
-    clientName: { type: String },
     myRole: { type: String, trim: true },
     services: {
       type: [String],

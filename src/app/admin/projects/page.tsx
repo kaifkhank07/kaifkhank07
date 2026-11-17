@@ -16,7 +16,6 @@ interface ProjectItem {
   title: string;
   slug: string;
   category: string;
-  clientName?: string;
   myRole?: string;
   services?: string[];
   liveDemoLink?: string;
@@ -38,7 +37,6 @@ export default function ProjectsAdmin() {
   const [formData, setFormData] = useState({
     title: "",
     category: Object.values(ProjectCategory)[0] as string,
-    clientName: "",
     myRole: "",
     services: [] as string[],
     liveDemoLink: "",
@@ -69,7 +67,6 @@ export default function ProjectsAdmin() {
       setFormData({
         title: project.title || "",
         category: project.category || Object.values(ProjectCategory)[0],
-        clientName: project.clientName || "",
         myRole: project.myRole || "",
         services: project.services || [],
         liveDemoLink: project.liveDemoLink || "",
@@ -83,7 +80,6 @@ export default function ProjectsAdmin() {
       setFormData({
         title: "",
         category: Object.values(ProjectCategory)[0],
-        clientName: "",
         myRole: "",
         services: [],
         liveDemoLink: "",
@@ -263,8 +259,7 @@ export default function ProjectsAdmin() {
               options={Object.values(ProjectCategory).map(cat => ({ label: cat, value: cat }))}
               required
             />
-            <Input label="Client Name" value={formData.clientName} onChange={e => setFormData({ ...formData, clientName: e.target.value })} />
-            <Input label="My Role" value={formData.myRole} onChange={e => setFormData({ ...formData, myRole: e.target.value })} placeholder="e.g. Lead Full Stack Developer" />
+            <Input label="My Role" value={formData.myRole} onChange={e => setFormData({ ...formData, myRole: e.target.value })} placeholder="e.g. Lead Full Stack Developer" className="col-span-2" />
             <Input label="Live Demo Link" value={formData.liveDemoLink} onChange={e => setFormData({ ...formData, liveDemoLink: e.target.value })} className="col-span-2" />
           </div>
 

@@ -38,6 +38,9 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     if ("domain" in body) {
       delete body.domain;
     }
+    if ("clientName" in body) {
+      delete body.clientName;
+    }
 
     // Only compare and delete removed images if images field is explicitly provided in body
     if (body.images !== undefined) {

@@ -6,7 +6,6 @@ interface ProjectDescriptionProps {
   project: {
     title?: string;
     category?: string;
-    clientName?: string;
     myRole?: string;
     services?: string[];
     liveDemoLink?: string;
@@ -49,15 +48,6 @@ export default function ProjectDescription({ project }: ProjectDescriptionProps)
                 </span>
               </div>
             )}
-
-            <div>
-              <span className="block text-xs font-bold uppercase tracking-widest text-zinc-400 mb-1">
-                CLIENT
-              </span>
-              <span className="text-lg font-medium text-zinc-900">
-                {project.clientName || "N/A"}
-              </span>
-            </div>
 
             {project.myRole && (
               <div>

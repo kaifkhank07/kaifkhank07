@@ -65,6 +65,9 @@ export async function POST(req: NextRequest) {
     if ("domain" in body) {
       delete body.domain;
     }
+    if ("clientName" in body) {
+      delete body.clientName;
+    }
 
     const project = await Project.create(body);
     return NextResponse.json({ success: true, data: project }, { status: 201 });
