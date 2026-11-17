@@ -31,8 +31,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-# .env*
+# env files
+.env.local
+.env.*.local
 *.env
 *.next
 
@@ -42,3 +43,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Temporary: Client Management & Google Forms Review Integration (do not push yet)
+.env.example
+CLIENT_REVIEW_INTEGRATION_README.md
+scripts/
+src/lib/models/Client.ts
+src/lib/constants/googleForm.ts
+src/components/Admin/InvitationModal.tsx
+src/app/api/clients/
+src/app/api/webhooks/
+src/app/admin/clients/
+uploads/clients/
+

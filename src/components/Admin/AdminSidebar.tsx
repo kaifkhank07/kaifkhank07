@@ -5,6 +5,7 @@ import Link from "next/link";
 import {
   LayoutDashboard,
   FolderOpen,
+  Users,
   UserCircle,
   Map,
   Wrench,
@@ -17,6 +18,7 @@ import {
 const navItems = [
   { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
   { name: "Projects", href: "/admin/projects", icon: FolderOpen },
+  { name: "Clients", href: "/admin/clients", icon: Users },
   { name: "About", href: "/admin/about", icon: UserCircle },
   { name: "Journey", href: "/admin/journey", icon: Map },
   { name: "Skills", href: "/admin/skills", icon: Wrench },

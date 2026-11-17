@@ -3,7 +3,15 @@
 import { motion } from "framer-motion";
 
 interface ProjectDescriptionProps {
-  project: any;
+  project: {
+    title?: string;
+    category?: string;
+    clientName?: string;
+    myRole?: string;
+    services?: string[];
+    liveDemoLink?: string;
+    challengeDescription?: string;
+  };
 }
 
 export default function ProjectDescription({ project }: ProjectDescriptionProps) {
@@ -25,12 +33,23 @@ export default function ProjectDescription({ project }: ProjectDescriptionProps)
               About Project
             </h2>
 
-            <p className="text-lg sm:text-xl leading-relaxed text-zinc-600 font-normal">
+            <p className="text-lg sm:text-xl leading-relaxed text-zinc-600 font-normal whitespace-pre-line">
               {project.challengeDescription || "Project description goes here."}
             </p>
           </div>
 
-          <div className="lg:col-span-5 flex flex-col gap-8 lg:pl-12 border-t lg:border-t-0 lg:border-l border-zinc-200 pt-8 lg:pt-0">
+          <div className="lg:col-span-5 flex flex-col gap-6 sm:gap-8 lg:pl-12 border-t lg:border-t-0 lg:border-l border-zinc-200 pt-8 lg:pt-0">
+            {project.category && (
+              <div>
+                <span className="block text-xs font-bold uppercase tracking-widest text-zinc-400 mb-1">
+                  CATEGORY
+                </span>
+                <span className="text-lg font-medium text-zinc-900">
+                  {project.category}
+                </span>
+              </div>
+            )}
+
             <div>
               <span className="block text-xs font-bold uppercase tracking-widest text-zinc-400 mb-1">
                 CLIENT
@@ -40,21 +59,34 @@ export default function ProjectDescription({ project }: ProjectDescriptionProps)
               </span>
             </div>
 
-            <div>
-              <span className="block text-xs font-bold uppercase tracking-widest text-zinc-400 mb-1">
-                SERVICES
-              </span>
-              <div className="flex flex-wrap gap-1">
-                {project.services?.map((service: any, idx: number) => (
-                  <div key={idx} className="text-lg font-medium text-zinc-900">
-                    <span>{service}</span>
-                    {idx < project.services.length - 1 && (
-                      <span className="text-zinc-400"> / </span>
-                    )}
-                  </div>
-                ))}
+            {project.myRole && (
+              <div>
+                <span className="block text-xs font-bold uppercase tracking-widest text-zinc-400 mb-1">
+                  MY ROLE
+                </span>
+                <span className="text-lg font-medium text-zinc-900">
+                  {project.myRole}
+                </span>
               </div>
-            </div>
+            )}
+
+            {project.services && project.services.length > 0 && (
+              <div>
+                <span className="block text-xs font-bold uppercase tracking-widest text-zinc-400 mb-1">
+                  SERVICES
+                </span>
+                <div className="flex flex-wrap gap-1">
+                  {project.services.map((service: string, idx: number) => (
+                    <div key={idx} className="text-lg font-medium text-zinc-900">
+                      <span>{service}</span>
+                      {idx < (project.services?.length || 0) - 1 && (
+                        <span className="text-zinc-400"> / </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {project.liveDemoLink && (
               <div>

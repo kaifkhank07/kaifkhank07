@@ -4,8 +4,15 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
+interface AboutData {
+    profileImage: string;
+    story: string;
+}
+
+const MotionImage = motion(Image);
+
 export default function Hero() {
-    const [aboutData, setAboutData] = useState({
+    const [aboutData, setAboutData] = useState<AboutData>({
         profileImage: "/assets/Images/regular/agency.jpg",
         story: "As a developer, I help businesses and startups transform ideas into reliable web applications. My approach combines clean architecture, modern technologies, and attention to detail to deliver solutions that are both powerful and easy to use."
     });
@@ -15,10 +22,10 @@ export default function Hero() {
             .then(res => res.json())
             .then(data => {
                 if (data.success && data.data) {
-                    setAboutData({
+                    setAboutData(prev => ({
                         profileImage: data.data.profileImage || "/assets/Images/regular/agency.jpg",
-                        story: data.data.story || aboutData.story
-                    });
+                        story: data.data.story || prev.story
+                    }));
                 }
             })
             .catch(err => console.error("Error fetching about data:", err));
@@ -26,25 +33,23 @@ export default function Hero() {
 
     const words = aboutData.story.split(" ");
 
-    const MotionImage = motion(Image);
-
     return (
         <section className="relative w-full min-h-screen flex items-center justify-center py-8 lg:py-12 pt-24 lg:pt-28 px-4 md:px-6 lg:px-16 overflow-hidden bg-white text-black">
             <div className="w-full max-w-8xl 3xl:max-w-[1450px] mx-auto">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-12 lg:gap-12 xl:gap-16 items-center">
                     {/* Profile Image Column */}
-                    <div className="lg:col-span-5 flex justify-center lg:justify-start">
-                        <div className="group relative w-full max-w-[340px] sm:max-w-[400px] lg:max-w-[460px] xl:max-w-[500px] aspect-[4/5] sm:aspect-[3/4] lg:aspect-[4/5] xl:aspect-[3/4] overflow-hidden bg-zinc-100 shadow-sm">
+                    <div className="lg:col-span-5 flex justify-center lg:justify-start w-full">
+                        <div className="group relative w-full aspect-square lg:aspect-[4/5] xl:aspect-[3/4] lg:max-w-[460px] xl:max-w-[500px] overflow-hidden bg-zinc-100 shadow-sm">
                             <MotionImage
                                 src={aboutData.profileImage}
                                 alt="Profile Image"
                                 fill
                                 priority
-                                sizes="(max-width: 640px) 90vw, (max-width: 1024px) 50vw, 40vw"
+                                sizes="(max-width: 1024px) 100vw, 500px"
                                 initial={{ scale: 1.15, opacity: 0 }}
                                 animate={{ scale: 1, opacity: 1 }}
                                 transition={{ duration: 1.4, ease: [0.77, 0, 0.175, 1] }}
-                                className="object-cover grayscale brightness-95 contrast-105 transition-all duration-700 ease-[cubic-bezier(0.77,0,0.175,1)] group-hover:grayscale-0 group-hover:scale-105"
+                                className="object-top object-cover grayscale-0 brightness-100 contrast-100 lg:grayscale lg:brightness-95 lg:contrast-105 transition-all duration-700 ease-[cubic-bezier(0.77,0,0.175,1)] lg:group-hover:grayscale-0 lg:group-hover:scale-105 lg:group-hover:brightness-100 lg:group-hover:contrast-100"
                             />
                         </div>
                     </div>

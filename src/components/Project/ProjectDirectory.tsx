@@ -5,8 +5,22 @@ import { motion } from "framer-motion";
 import { fadeUp, staggerContainer } from "@/animations/variants";
 import ProjectCard from "@/components/Project/ProjectCard";
 
+interface DirectoryProject {
+  slug: string;
+  title: string;
+  category: string;
+  image: string;
+}
+
+interface RawProject {
+  slug?: string;
+  title: string;
+  category: string;
+  images?: string[];
+}
+
 export default function ProjectDirectory() {
-  const [projectsList, setProjectsList] = useState<any[]>([]);
+  const [projectsList, setProjectsList] = useState<DirectoryProject[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,14 +31,12 @@ export default function ProjectDirectory() {
       .then((data) => {
         if (!isMounted) return;
         if (data.success && data.data && data.data.length > 0) {
-          const formattedData = data.data.map((p: any) => ({
-            slug: p.slug,
+          const formattedData: DirectoryProject[] = data.data.map((p: RawProject) => ({
+            slug: p.slug || "",
             title: p.title,
             category: p.category,
             image:
-              p.images && p.images.length > 1
-                ? p.images[1]
-                : p.images && p.images.length > 0
+              p.images && p.images.length > 0
                 ? p.images[0]
                 : "/assets/Images/regular/agency.jpg",
           }));
@@ -62,7 +74,7 @@ export default function ProjectDirectory() {
           {loading && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-8 xl:gap-10">
               <div className="aspect-[4/5] bg-zinc-900/40 animate-pulse border border-zinc-800/50" />
-              <div className="aspect-[4/5] bg-zinc-900/40 animate-pulse border border-zinc-800/50" />
+              <div className="aspect-[4/5] bg-zinc-900/40 animate-pulse border border-zinc-800/50 hidden sm:block" />
               <div className="aspect-[4/5] bg-zinc-900/40 animate-pulse border border-zinc-800/50 hidden lg:block" />
             </div>
           )}

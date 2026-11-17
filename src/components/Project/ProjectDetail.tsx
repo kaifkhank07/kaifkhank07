@@ -8,7 +8,22 @@ import ProjectHero from "@/components/Project/ProjectHero";
 import ProjectDescription from "@/components/Project/ProjectDescription";
 import ProjectMediaSection from "@/components/Project/ProjectMediaSection";
 
-function ProjectContent({ project }: { project: any }) {
+export interface ProjectDetailData {
+  _id?: string;
+  title: string;
+  slug: string;
+  category: string;
+  clientName?: string;
+  myRole?: string;
+  services?: string[];
+  liveDemoLink?: string;
+  challengeDescription?: string;
+  showOnHome?: boolean;
+  visibility?: boolean;
+  images: string[];
+}
+
+function ProjectContent({ project }: { project: ProjectDetailData }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -39,7 +54,7 @@ export default function ProjectDetail() {
   const params = useParams();
   const slug = params?.slug as string;
 
-  const [project, setProject] = useState<any>(null);
+  const [project, setProject] = useState<ProjectDetailData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

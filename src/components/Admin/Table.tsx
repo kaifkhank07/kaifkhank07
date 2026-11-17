@@ -18,8 +18,8 @@ export function TableHead({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function TableHeader({ children }: { children: React.ReactNode }) {
-  return <th className="px-6 py-4 font-semibold">{children}</th>;
+export function TableHeader({ children, className }: { children: React.ReactNode; className?: string }) {
+  return <th className={`px-6 py-4 font-semibold ${className || ""}`}>{children}</th>;
 }
 
 export function TableBody({ children }: { children: React.ReactNode }) {

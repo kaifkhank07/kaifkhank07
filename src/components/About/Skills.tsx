@@ -32,27 +32,31 @@ export default function Skills() {
                 </div>
 
                 <div className="w-full grid md:grid-cols-2 gap-px bg-zinc-200">
-                    {skillsData.map((group) => (
-                        <div
-                            key={group.category}
-                            className="bg-white p-8 md:p-12 transition-all duration-500 hover:bg-black hover:text-white group"
-                        >
-                            <h3 className="text-2xl md:text-3xl font-semibold mb-8">
-                                {group.category}
-                            </h3>
+                    {skillsData.map((group, index) => {
+                        const isLastInARow = index % 2 !== 0;
 
-                            <div className="flex flex-wrap gap-3">
-                                {group.items.map((skill) => (
-                                    <span
-                                        key={skill}
-                                        className="text-sm uppercase tracking-wider text-zinc-500 group-hover:text-zinc-300 transition-colors"
-                                    >
-                                        {skill}
-                                    </span>
-                                ))}
+                        return (
+                            <div
+                                key={index}
+                                className={`bg-white py-8 sm:py-10 lg:py-12 ${isLastInARow ? "sm:px-12" : "lg:px-12"} transition-all duration-500 hover:bg-black hover:text-white group`}
+                            >
+                                <h3 className="text-2xl md:text-3xl font-semibold mb-8">
+                                    {group.category}
+                                </h3>
+
+                                <div className="flex flex-wrap gap-3">
+                                    {group.items.map((skill) => (
+                                        <span
+                                            key={skill}
+                                            className="text-sm uppercase tracking-wider text-zinc-500 group-hover:text-zinc-300 transition-colors"
+                                        >
+                                            {skill}
+                                        </span>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        )
+                    })}
                 </div>
             </div>
         </section>

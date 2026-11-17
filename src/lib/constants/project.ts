@@ -1,15 +1,10 @@
-export enum ProjectService {
-  WEB_DEVELOPMENT = "Development",
-  WEB_APP = "Web App",
+export enum ProjectCategory {
+  WEBSITE_DEVELOPMENT = "Website Development",
+  WEB_APPLICATION = "Web Application",
+  MOBILE_APPLICATION = "Mobile Application",
   UI_UX_DESIGN = "UI/UX Design",
-  MOBILE_APP = "Mobile App Development",
-  BRANDING = "Branding",
+  ECOMMERCE = "E-commerce",
+  SAAS_APPLICATION = "SaaS Application",
 }
 
-export enum ProjectCategory {
-  WEB_APP = "Web App",
-  MOBILE_APP = "Mobile App Development",
-  WEBSITE = "Website",
-  UI_UX_DESIGN = "UI/UX Design",
-  BRANDING = "Branding",
-}
+export const PROJECT_CATEGORIES = Object.values(ProjectCategory);

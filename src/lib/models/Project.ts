@@ -1,11 +1,12 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { ProjectService, ProjectCategory } from "@/lib/constants/project";
+import { ProjectCategory } from "@/lib/constants/project";
 
 export interface IProject extends Document {
   title: string;
   slug: string;
   category: string;
   clientName: string;
+  myRole?: string;
   services: string[];
   liveDemoLink: string;
   challengeDescription: string;
@@ -24,9 +25,9 @@ const ProjectSchema: Schema = new Schema(
       enum: Object.values(ProjectCategory),
     },
     clientName: { type: String },
+    myRole: { type: String, trim: true },
     services: {
       type: [String],
-      enum: Object.values(ProjectService),
       default: [],
     },
     liveDemoLink: { type: String },
@@ -37,8 +38,8 @@ const ProjectSchema: Schema = new Schema(
     images: {
       type: [String],
       validate: [
-        (val: string[]) => val.length <= 3,
-        "A project can have a maximum of 3 images",
+        (val: string[]) => val.length <= 4,
+        "A project can have a maximum of 4 images",
       ],
       default: [],
     },
@@ -46,7 +47,7 @@ const ProjectSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-// To prevent Next.js HMR from caching the old schema without showOnHome
+// To prevent Next.js HMR from caching the old schema without updated fields
 if (mongoose.models.Project) {
   delete mongoose.models.Project;
 }
